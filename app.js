@@ -1,9 +1,9 @@
+//const mongoose = require('mongoose');
 require('dotenv').config();
 
-const cookieParser = require('cookie-parser');
 const express = require('express');
 const favicon = require('serve-favicon');
-//const mongoose = require('mongoose');
+//const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const path = require('path');
 
@@ -16,7 +16,7 @@ require('./configs/db.config');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+// app.use(cookieParser());
 
 // Express View engine setup
 
