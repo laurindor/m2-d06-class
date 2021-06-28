@@ -17,6 +17,28 @@ router.get('/', (req, res) => { //no hace falta poner /books porque ya asume des
     res.render ('books', {allBooks})})
 });
 
+//this answers to /books/add URL
+router.post('/add', (req, res)=> {
+  const title= req.body.title
+  const description = req.body.description
+  const author = req.body.author
+  const rating = req.body.rating
+
+  Book.create ( {title, description, author, rating})
+ .then( createdBook => {
+  console.log (createdBook);
+  res.redirect('/books');
+ })
+ .catch(err => console.log(err))
+
+})
+
+
+router.get('/add', (req, res) => {
+  res.render('book-add')
+})
+
+
 // ****************************************************************************************
 // GET route for displaying the book details page
 // ****************************************************************************************
