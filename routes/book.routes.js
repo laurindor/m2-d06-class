@@ -18,16 +18,17 @@ router.get('/', (req, res) => { //no hace falta poner /books porque ya asume des
 });
 
 //this answers to /books/add URL
-router.post('/add', (req, res)=> {
-  const title= req.body.title
-  const description = req.body.description
-  const author = req.body.author
-  const rating = req.body.rating
+router.post('/add', (req, res)=> { 
+   const { title, description, author, rating } = req.body //this is called destructuring and does the same as below
+  //const title= req.body.title
+  //const description = req.body.description
+  //const author = req.body.author
+  //const rating = req.body.rating
 
   Book.create ( {title, description, author, rating})
  .then( createdBook => {
   console.log (createdBook);
-  res.redirect('/books');
+  res.redirect('/books');//this is a mandatory closing condition for our route
  })
  .catch(err => console.log(err))
 
@@ -38,15 +39,50 @@ router.get('/add', (req, res) => {
   res.render('book-add')
 })
 
+router.post('/edit/:id', (req, res)=>{
+  const id = req.params.id
+  const { title, description, author, rating } = req.body
+  Book.findByIdAndUpdate(id,{title, description, author, rating })
+  .then(updatedBook => res.redirect(`/books`))
+  .catch(err=>console.log(err))
+})
+
+router.get('/edit/:id', (req, res) =>{ //this is the twin route of the get
+  const id = req.params.id
+  Book.findById(id)
+  .then( bookFromFindById => res.render ('book-edit', {book: bookFromFindById}))
+})
+
+router.get('/delete/:id', (req, res) => {
+  const id = req.params.id;
+  Book.findByIdAndDelete(id).then( deletedBook => res.redirect("/books"))
+});
+
 
 // ****************************************************************************************
 // GET route for displaying the book details page
 // ****************************************************************************************
 
-router.get('/books/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   const id = req.params.id;
   Book.findById(id)
+   .then (bookFromCollection => res.render ("book-details", bookFromCollection ))
+});
+
+
+// ****************************************************************************************
+// GET route to display all the books
+// ****************************************************************************************
+
+
+
+router.get('/', (req, res) => { // What URL does this answer?
+  Book.find()
+  .then(allBooks => {
+    res.render('books', {allBooks})})
    // You have to continue coding the route
 });
+
+
 
 module.exports = router; //this exports 

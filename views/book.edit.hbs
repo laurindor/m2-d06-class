@@ -1,0 +1,28 @@
+<h1>ADD NEW BOOK</h1>
+
+<form action= '/books/add' method="POST">
+
+<label for=''>Title</label>
+  <input type='text' value="{{book.title}}">
+
+  <br>
+  <label for=''>Description</label>
+  <input type='text' value="{{book.description}}">
+
+  <br>
+  <label for=''>Author</label>
+  <input type='text' value="{{book.author}}">
+
+  <br>
+  <label for=''>Rating</label>
+  <input type='number' value="{{book.rating}}">
+
+  <button type='submit'>Save edits</button>
+
+
+</form>
+
+<br>
+<a href="/books">
+  <button class= "return-button">Return to books list</button>
+</a>
