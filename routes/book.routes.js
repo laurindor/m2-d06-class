@@ -36,7 +36,10 @@ router.post('/add', (req, res)=> {
 
 
 router.get('/add', (req, res) => {
-  res.render('book-add')
+  Author.find()
+  .then(allAuthors =>
+  res.render('book-add',{allAuthors})
+  )
 })
 
 router.post('/edit/:id', (req, res)=>{
@@ -66,7 +69,8 @@ router.get('/delete/:id', (req, res) => {
 router.get('/:id', (req, res) => {
   const id = req.params.id;
   Book.findById(id)
-   .then (bookFromCollection => res.render ("book-details", bookFromCollection ))
+  .populate('author') //reads the id, goes to the database and it gives you a full js object. this allows you specify, .name, .surname... in bookdetails.hbs
+  .then (bookFromCollection => res.render ("book-details", bookFromCollection ))
 });
 
 
